@@ -1,0 +1,56 @@
+//Redundant link SW Huawei dengan menggunakan fitur rrpp
+
+//SW_1
+#
+rrpp enable
+#
+stp region-configuration
+ instance 1 vlan 1 to 4094
+ active region-configuration
+#
+rrpp domain 1
+ control-vlan 10
+ protected-vlan reference-instance 1
+ ring 1 node-mode master primary-port 40GE0/0/1 secondary-port 40GE0/0/2 level 0
+ ring 1 enable
+#
+interface 40GE0/0/1
+ description "MAIN LINK - SW_2 PORT 40GE0/0/1"
+ port link-type trunk
+ port trunk allow-pass vlan 10 to 11
+ stp disable
+#
+interface 40GE0/0/2
+ description "BACKUP LINK - SW_2 PORT 40GE0/0/2"
+ port link-type trunk
+ port trunk allow-pass vlan 10 to 11
+ stp disable
+#
+
+//SW_2
+
+#
+rrpp enable
+#
+stp region-configuration
+ instance 1 vlan 1 to 4094
+ active region-configuration
+#
+rrpp domain 1
+ control-vlan 10
+ protected-vlan reference-instance 1
+ ring 1 node-mode transit primary-port 40GE0/0/1 secondary-port 40GE0/0/2 level 0
+ ring 1 enable
+#
+interface 40GE0/0/1
+ description "MAIN LINK - SW_1 PORT 40GE0/0/1"
+ port link-type trunk
+ port trunk allow-pass vlan 10 to 11
+ stp disable
+#
+interface 40GE0/0/2
+ description "BACKUP LINK - SW_1 PORT 40GE0/0/2"
+ port link-type trunk
+ port trunk allow-pass vlan 10 to 11
+ stp disable
+#
