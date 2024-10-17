@@ -1,4 +1,4 @@
-//Redundant link SW Huawei dengan menggunakan fitur rrpp
+//Huawei Redundant link using rrpp
 
 //SW_1
 #
